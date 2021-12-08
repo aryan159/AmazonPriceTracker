@@ -25,7 +25,7 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 ```
 
-### Step 3
+### Step 4
 Start the background script
 ```
 python manage.py startserver
@@ -34,7 +34,7 @@ This script will run in the background and will
 1. Crawl all the products in the database daily and
 2. Alert the appropriate users in case of any price drops
 
-### Step 4
+### Step 5
 Launch the project
 ```
 python manage.py runserver --noreload --nothreading
