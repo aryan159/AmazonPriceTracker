@@ -31,9 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'polls.apps.PollsConfig',
     'AmazonPriceTracker.apps.AmazonpricetrackerConfig',
-    'testing',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
