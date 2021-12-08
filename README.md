@@ -11,6 +11,19 @@ Install all the dependencies. Navigate to the outer ProjectFolder with the "requ
 ```
 pip install -r requirements.txt
 ```
+### Step 3
+Configure ProjectFolder/settings.py to send emails. The easiest way is via a google account. You will have to enable your google account for this via [this setting](https://myaccount.google.com/lesssecureapps). Then fill in the settings shown before
+
+```
+DEFAULT_FROM_EMAIL = '' #The email you will be sending from
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = '' #The email you will be sending from
+EMAIL_HOST_PASSWORD = '' #Password for your email
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+```
 
 ### Step 3
 Start the background script
