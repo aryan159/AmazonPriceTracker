@@ -14,7 +14,7 @@ The script runs once every 24 hours in the background, scraping through all the 
 ## Future Improvements
 The inspiration for this project was to generate an income by sending affiliate links to users when alerting them of price drops. To reach that stage, I will need to 
 1) Integrate Amazon API to generate affiliate links
-2) Beautify the website and make it more user-friendly (show product name instead of product #)
+2) Beautify the website and make it more user-friendly (e.g. show product name instead of product #)
 3) Host the project on a remote server
 
 ## Challenges
