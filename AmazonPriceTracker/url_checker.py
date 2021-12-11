@@ -36,8 +36,7 @@ def URLChecker(url, process):
     Output
     (list) [valid(Boolean), price(int)]
     '''
-
-
+    
     with open("AmazonPriceTracker/crawler/urlcheckerinput.csv", "w") as file:
         writer = csv.writer(file)
         url = [url]
