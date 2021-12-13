@@ -17,6 +17,7 @@ class URLCheckerSpider(scrapy.Spider):
     def parse(self, response):
 
         price = response.css("span.apexPriceToPay *::text").get()
+        name = response.css("span#productTitle *::text").get()
         print('[AAAAAAAAAAAAAAAAA] In spider, price is ')
         print(price)
         if not price:
@@ -29,7 +30,8 @@ class URLCheckerSpider(scrapy.Spider):
         #price = float(price)
         yield {
             "valid": valid,
-            "price": price
+            "price": price,
+            "name": name,
         }
 
         #with open('output.txt', 'w') as f:

@@ -8,18 +8,16 @@ from AmazonPriceTracker.url_checker import URLChecker, URLCheckerStarter
 from .models import Products, Prices, Emails
 from .daily_web_scraper import DailyWebScraper
 
-process = ''
 email_re = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
 
 class ProductURLForm (forms.Form):
-    product_url = forms.CharField(label="Amazon Product URL")
+    product_url = forms.CharField(label="Amazon Product URL", widget=forms.TextInput(attrs={'class': 'URLForm'}))
 
 class EmailForm(forms.Form):
     email = forms.CharField(label="Your Email Address")
 
 def activate(request):
     DailyWebScraper()
-    #process = URLCheckerStarter()
 
 
 def index(request):
@@ -34,14 +32,13 @@ def index(request):
         #extract the 10 digits after /dp/
         position = url.find('/dp/')
         ASIN_user = url[position + 4 : position + 14]
-        #URLCheckerOutput = URLChecker(url, process)
-        # and URLCheckerOutput[0] #for the if statement below
-        if ASIN_user.isalnum():
+        valid, price, name = URLChecker(url)
+        if ASIN_user.isalnum() and valid:
             if not Products.objects.filter(ASIN=ASIN_user).exists():
                 new_product = Products(ASIN=ASIN_user)
+                new_product.name = name
                 new_product.save()
-                #new_product.price_set.create(price=URLCheckerOutput[1])
-            #redirect to /prodcut/{ASIN}
+                new_product.prices_set.create(price=price)
             print("[AAAAAAAAAAAAAA] Valid!")
             return HttpResponseRedirect(f"/product/{ASIN_user}")
         else:
@@ -55,6 +52,9 @@ def index(request):
     })
 
 def product(request, ASIN):
+    current_product = Products.objects.get(ASIN=ASIN)
+    prices = current_product.prices_set.all()
+    name = current_product.name
     if request.method == 'POST':
         form = EmailForm(request.POST)
         email = ''
@@ -63,8 +63,10 @@ def product(request, ASIN):
         else:
             return render(request, f"AmazonPriceTracker/product.html", {
                 "ASIN": ASIN,
+                "prices": prices,
                 "form" : EmailForm(),
-                "error" : "Invalid Email"
+                "error" : "Invalid Email",
+                "name": name,
             })
         if re.fullmatch(email_re, email):
             #add to db
@@ -72,25 +74,24 @@ def product(request, ASIN):
             current_product.emails_set.create(email=email)
             return render(request, "AmazonPriceTracker/product.html", {
                 "ASIN": ASIN,
+                "prices": prices,
                 "form" : EmailForm(),
+                "name": name,
                 "success": "Successfully added your email. We will inform you of any price drops on this product"
             })
         else:
-            return render(request, f"AmazonPriceTracker/product.html", {
+            return render(request, "AmazonPriceTracker/product.html", {
                 "ASIN": ASIN,
+                "prices": prices,
                 "form" : EmailForm(),
+                "name": name,
                 "error" : "Invalid Email"
             })
 
-    current_product = Products.objects.get(ASIN=ASIN)
-    prices = current_product.prices_set.all()
     return render(request, "AmazonPriceTracker/product.html", {
         "ASIN": ASIN,
         "prices": prices,
+        "name": name,
         "form": EmailForm()
     })
 
-def greet(request, name):
-    return render(request, "AmazonPriceTracker/greet.html", {
-        "name": name
-    })
