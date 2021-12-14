@@ -4,7 +4,7 @@ import time, datetime
 import re
 import scrapy
 from scrapy.crawler import CrawlerProcess
-from scrapy.utils.project import get_project_settings     
+from scrapy.utils.project import get_project_settings
 from twisted.internet import reactor
 from twisted.internet.task import deferLater
 import csv
@@ -17,7 +17,7 @@ from .models import Prices, Products, Emails
 
 
 def updateDB():
-    file = open('AmazonPriceTracker/crawler/output.json')
+    file = open('AmazonPriceTracker/AmazonPriceTracker/crawler/output.json')
     output = json.load(file)
     print(output)
     for price in output:
@@ -29,16 +29,20 @@ def updateDB():
         #print(current_product.prices_set.all()[0])
         #print(current_product.prices_set.all()[0].price)
         previous_price = None
-        try: 
+        try:
             previous_price = current_product.prices_set.all()[0].price
         except:
             previous_price = None
         current_price = float(list(price.values())[0])
         current_product.prices_set.create(price=current_price)
         if previous_price and current_price < previous_price:
+            ProductName = current_product.name
+            ProductURL = "amazon.sg/dp/" + current_product.ASIN
             emails = list(current_product.emails_set.all())
-            send_mail('Price Drop', 'Price has dropped',
-                      settings.DEFAULT_FROM_EMAIL, emails)
+            send_mail(
+                f"{ProductName} has dropped in price",
+                f"The price of {ProductName} has dropped from {previous_price} to {current_price}. Buy it now: {ProductURL}",
+                settings.DEFAULT_FROM_EMAIL, emails)
             print('[AAAAAAAAAAAAAAA] sent email')
             print(emails)
     print('[AAAAAAAAAAAAA] Finished updating DB')
@@ -47,7 +51,7 @@ def postASINs():
     ASINs = []
     for product in Products.objects.all():
         ASINs.append(product.ASIN)
-    filenameInput = 'AmazonPriceTracker/crawler/input.csv'
+    filenameInput = 'AmazonPriceTracker/AmazonPriceTracker/crawler/input.csv'
     with open(filenameInput, 'w') as file:
         writer = csv.writer(file)
         writer.writerow(ASINs)
@@ -55,7 +59,7 @@ def postASINs():
 
 
 def OncePerDayScraper():
-    filenameOutput = 'AmazonPriceTracker/crawler/output.json'
+    filenameOutput = 'AmazonPriceTracker/AmazonPriceTracker/crawler/output.json'
     file = open(filenameOutput, 'w')
     file.close()
     process = CrawlerProcess(settings={
@@ -86,7 +90,7 @@ def OncePerDayScraper():
     process.start(stop_after_crawl=False)
 
 def schedule_task(task, frequency):
-    ''' 
+    '''
     Schedule a regular task
 
     Parameters:
@@ -105,11 +109,11 @@ def schedule_task(task, frequency):
             time.sleep(numOfHours*60*60 - 120) #sleep almost 24h
         else:
             time.sleep(15) #check every X seconds, adjust as you need
-    
+
     return
 
 def schedule_task_testing(task):
-    ''' 
+    '''
     Schedule a regular task
 
     Parameters:
@@ -129,6 +133,6 @@ def schedule_task_testing(task):
         else:
             print('[' + now.strftime('%X') + '] FALSE')
             time.sleep(15) #check every X seconds, adjust as you need
-    
+
     return
  """

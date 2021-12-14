@@ -6,7 +6,7 @@ class URLCheckerSpider(scrapy.Spider):
     name = "urlchecker"
 
     def start_requests(self):
-        file = open('AmazonPriceTracker/crawler/urlcheckerinput.csv')
+        file = open('AmazonPriceTracker/AmazonPriceTracker/crawler/urlcheckerinput.csv')
         csvreader = csv.reader(file)
         url = next(csvreader)[0]
         print('[AAAAAAAAAAAAAAAAA] In spider, url is ')
@@ -16,12 +16,22 @@ class URLCheckerSpider(scrapy.Spider):
 
     def parse(self, response):
 
-        price = response.css("span.apexPriceToPay *::text").get()
         name = response.css("span#productTitle *::text").get()
+        price = response.css("span.apexPriceToPay *::text").get()
+        if not price:
+            price = response.css("span.priceBlockBuyingPriceString *::text").get()
+        if not price:
+            price = response.css("span#price *::text").get()
+        if not price:
+            price = response.css("span#priceblock_ourprice *::text").get()
         print('[AAAAAAAAAAAAAAAAA] In spider, price is ')
         print(price)
-        if not price:
-            price = response.css("span.priceBlockBuyingPriceString").get()
+        price = re.sub("[^0-9.]", "", price)
+
+        print('[AAAAAAAAAAAAAAAAA] In spider, price is ')
+        print(price)
+        print('[AAAAAAAAAAAAAAAAA] In spider, name is ')
+        print(name)
         if not price:
             valid = False
         else:

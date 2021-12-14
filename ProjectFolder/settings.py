@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-is+f_ty+g1vrfd==)6+g-r%7$n&wty(j-w(4kw8em!!*wzqrx@
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['prizo.pythonanywhere.com', 'www.prizotracker.com']
 
 
 # Application definition
@@ -119,6 +119,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = '/home/prizo/AmazonPriceTracker/static'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

@@ -5,7 +5,7 @@ import time, datetime
 import re
 import scrapy
 from scrapy.crawler import CrawlerProcess
-from scrapy.utils.project import get_project_settings     
+from scrapy.utils.project import get_project_settings
 from twisted.internet import reactor
 from twisted.internet.task import deferLater
 import csv
@@ -15,7 +15,7 @@ from multiprocessing import Process, Queue
 from .web_scraper.web_scraper.spiders.urlchecker_spider import URLCheckerSpider
 #from .models import Prices, Products
 
-filenameOutput = 'AmazonPriceTracker/crawler/urlcheckeroutput.json'
+filenameOutput = 'AmazonPriceTracker/AmazonPriceTracker/crawler/urlcheckeroutput.json'
 
 def URLCheckerStarter():
     process = CrawlerProcess(settings={
@@ -53,12 +53,12 @@ def URLChecker(url):
     (list) [valid(Boolean), price(int)]
     '''
 
-    with open("AmazonPriceTracker/crawler/urlcheckerinput.csv", "w") as file:
+    with open("AmazonPriceTracker/AmazonPriceTracker/crawler/urlcheckerinput.csv", "w") as file:
         writer = csv.writer(file)
         url = [url]
         writer.writerow(url)
 
-    
+
     file = open(filenameOutput, 'w')
     file.close()
     """ process = CrawlerProcess(settings={
@@ -67,7 +67,7 @@ def URLChecker(url):
             },
         }) """
 
-    
+
 
     q = Queue()
     p = Process(target=f, args=(q,))
@@ -82,7 +82,7 @@ def URLChecker(url):
     #process.start()
 
     try:
-        file = open('AmazonPriceTracker/crawler/urlcheckeroutput.json')
+        file = open('AmazonPriceTracker/AmazonPriceTracker/crawler/urlcheckeroutput.json')
         output = json.load(file)
         return output[0]["valid"], float(output[0]["price"]), output[0]["name"]
     except:
