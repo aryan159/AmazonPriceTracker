@@ -1,19 +1,15 @@
-from scrapy.crawler import CrawlerProcess, CrawlerRunner
-from twisted.internet import reactor
-import time, datetime
-import re
-import scrapy
-from scrapy.crawler import CrawlerProcess
-from scrapy.utils.project import get_project_settings     
-from twisted.internet import reactor
-from twisted.internet.task import deferLater
-import csv
-import json
 from django.core.mail import send_mail
 from django.conf import settings
 
+from scrapy.crawler import CrawlerProcess
+
+from twisted.internet import reactor
+from twisted.internet.task import deferLater
+
+import datetime, csv, json
+
 from .web_scraper.web_scraper.spiders.amazon_price_spider import AmazonPriceSpider
-from .models import Prices, Products, Emails
+from .models import Products
 
 
 def sleep(self, *args, seconds):

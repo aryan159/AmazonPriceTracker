@@ -1,35 +1,21 @@
 from scrapy.crawler import CrawlerProcess, CrawlerRunner
 from scrapy.utils.log import configure_logging
-from twisted.internet import reactor
-import time, datetime
-import re
-import scrapy
-from scrapy.crawler import CrawlerProcess
 from scrapy.utils.project import get_project_settings
+
 from twisted.internet import reactor
 from twisted.internet.task import deferLater
-import csv
-import json
+
 from multiprocessing import Process, Queue
 
+import csv, json
+
 from .web_scraper.web_scraper.spiders.urlchecker_spider import URLCheckerSpider
-#from .models import Prices, Products
 
-filenameOutput = 'AmazonPriceTracker/AmazonPriceTracker/crawler/urlcheckeroutput.json'
-
-def URLCheckerStarter():
-    process = CrawlerProcess(settings={
-            "FEEDS": {
-            filenameOutput : {"format": "json"},
-            },
-        })
-
-    process.start()
-    return process
+filenameOutput = "AmazonPriceTracker/AmazonPriceTracker/crawler/urlcheckeroutput.json"
+filenameInput = "AmazonPriceTracker/AmazonPriceTracker/crawler/urlcheckerinput.csv"
 
 def f(q):
         try:
-            #configure_logging({'LOG_FORMAT': '%(levelname)s: %(message)s'})
             runner = CrawlerRunner(settings={
                 "FEEDS": {
                 filenameOutput : {"format": "json"},
@@ -50,10 +36,12 @@ def URLChecker(url):
     url (string): the url we want to check
 
     Output
-    (list) [valid(Boolean), price(int)]
+    valid (boolean): Is the URL valid?
+    price (float): Price of product (-1.0 if invalid)
+    name (string): Name of product (-1.0 if invalid)
     '''
 
-    with open("AmazonPriceTracker/AmazonPriceTracker/crawler/urlcheckerinput.csv", "w") as file:
+    with open(filenameInput, "w") as file:
         writer = csv.writer(file)
         url = [url]
         writer.writerow(url)
@@ -61,13 +49,6 @@ def URLChecker(url):
 
     file = open(filenameOutput, 'w')
     file.close()
-    """ process = CrawlerProcess(settings={
-            "FEEDS": {
-            filenameOutput : {"format": "json"},
-            },
-        }) """
-
-
 
     q = Queue()
     p = Process(target=f, args=(q,))
@@ -77,9 +58,6 @@ def URLChecker(url):
 
     if result is not None:
         raise result
-
-    #process.crawl(URLCheckerSpider)
-    #process.start()
 
     try:
         file = open('AmazonPriceTracker/AmazonPriceTracker/crawler/urlcheckeroutput.json')
