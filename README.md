@@ -1,7 +1,7 @@
 # AmazonPriceTracker
 A web-app to alert users of future price drops. Check it out at www.prizotracker.com
 
-This project is built using Django (the web framework), SQLite (the database) and Scrapy (the web crawler)
+This project is built using Django (the web framework), SQLite (the database) and Scrapy (the web crawler) and is hosted on Python Anywhere
 
 The main page. Enter the product url you would like to start tracking
 <img width="1440" alt="Main Page" src="https://user-images.githubusercontent.com/33245117/146040494-a94a676c-96b0-44f5-a754-658f480dc4b7.png">
@@ -12,13 +12,7 @@ The product page. Shows relevant price history and gives you an option to enter 
 The script runs once every 24 hours in the background, scraping through all the products in the database and alerting any relevant users of price drops
 
 ## Future Improvements
-The inspiration for this project was to generate an income by sending affiliate links to users when alerting them of price drops. To reach that stage, I will need to 
-1) Integrate Amazon API to generate affiliate links
-2) Beautify the website and make it more user-friendly (e.g. show product name instead of product #)
-3) Host the project on a remote server
-
-## Challenges
-Sometimes the price that the bot would crawl would be slightly different from the price I was seeing. This could be because I was logged in to my Amazon account or maybe because Amazon detected bot-like behavior from the crawler. To get the best price possible, consider using selenium (a way to simulate how humans interact with websites through a browser) with an logged in Amazon account.
+The inspiration for this project was to generate an income by sending affiliate links to users when alerting them of price drops. To to that, I will have to be approved as an amazon affiliate and replace and replace the links in the emails I send accordingly.
 
 ## Reproduce the code locally
 
