@@ -16,11 +16,6 @@ from .web_scraper.web_scraper.spiders.amazon_price_spider import AmazonPriceSpid
 from .models import Prices, Products, Emails
 
 
-def sleep(self, *args, seconds):
-    """Non blocking sleep callback"""
-    updateDB()
-    return deferLater(reactor, seconds, lambda: None)
-
 def updateDB():
     file = open('AmazonPriceTracker/crawler/output.json')
     output = json.load(file)
@@ -59,8 +54,7 @@ def postASINs():
     print("Just Posted to crawler/input.csv")
 
 
-def DailyWebScraper():
-    now = datetime.datetime.now()
+def OncePerDayScraper():
     filenameOutput = 'AmazonPriceTracker/crawler/output.json'
     file = open(filenameOutput, 'w')
     file.close()
@@ -70,20 +64,10 @@ def DailyWebScraper():
             },
         })
 
-    def _crawl(result, spider):
-        file = open(filenameOutput, 'w')
-        file.close()
-        postASINs()
-
-        deferred = process.crawl(spider)
-        deferred.addCallback(lambda results: print('waiting 60 seconds before restart...'))
-        deferred.addCallback(sleep, seconds=60)
-        deferred.addCallback(_crawl, spider)
-        return deferred
-
-    _crawl(None, AmazonPriceSpider)
-
+    postASINs()
+    process.crawl(AmazonPriceSpider)
     process.start()
+    updateDB()
 
 #mainFunction()
 

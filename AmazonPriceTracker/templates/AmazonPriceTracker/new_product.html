@@ -20,32 +20,27 @@
         -moz-user-select: none;
         user-select: none;
       }
-
       @media (min-width: 768px) {
         .bd-placeholder-img-lg {
           font-size: 3.5rem;
         }
       }
-
       body {
-          background-image: url("{% static 'AmazonPriceTracker/images/background.webp' %}");
+          /*background-image: url("{% static 'AmazonPriceTracker/images/background.webp' %}");*/
           background-position: center;
           background-repeat: no-repeat;
           background-size: cover;
       }
-
       input {
-        width: 100%;
-        padding: 20px 15px; 
+        width: 75%;
+        padding: 15px 10px; 
         line-height: 28px;
         border-radius: 5px; 
         border-width: thin;
       }
-
       textarea {
         width: 100%;
       }
-
       form {
         width: 100%;
       }
@@ -68,15 +63,29 @@
     </header>
 
     <main class="px-3">
-        <h1>Shop Smart.</h1>
-        <p class="lead">Eyeing a product but it seems too expensive right now? Let Prizo let you know when the price drops</p>
-        <form action="{% url 'AmazonPriceTracker:index' %}" method="post">
-          <p class="lead">
-            {% csrf_token %}
-            {{ form }}
-          </p>
+        <h1>{{ name }}</h1>
+        <p class="lead">Price History</p>
+
+        <table class="table text-white">
+            <tr>
+              <th>Price</th>
+              <th>Date</th>
+            </tr>
+            {% for price in prices %}
+                <tr>
+                    <td>{{ price.price }}</td>
+                    <td>{{ price.date }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+        <form action="{% url 'AmazonPriceTracker:product' ASIN %}" method="post">
+            <p class="lead">
+                {% csrf_token %}
+                {{ form }}
+            </p>
         </form>
         {% if error %}<p class="lead" style="color: red;"><strong>{{ error }}</strong></p>{% endif %}
+        {% if success %}<p class="lead" style="color: green;"><strong>{{ success }}</strong></p>{% endif %}
     </main>
 
     <footer class="mt-auto text-white-50">

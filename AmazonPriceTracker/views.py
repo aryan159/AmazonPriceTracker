@@ -11,10 +11,16 @@ from .daily_web_scraper import DailyWebScraper
 email_re = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
 
 class ProductURLForm (forms.Form):
-    product_url = forms.CharField(label="Amazon Product URL", widget=forms.TextInput(attrs={'class': 'URLForm'}))
+    product_url = forms.CharField(label="", widget=forms.TextInput(attrs={
+        "class": "URLForm", 
+        "placeholder": "Enter your Amazon.sg link here",
+        "autocomplete": "off",
+    }))
 
 class EmailForm(forms.Form):
-    email = forms.CharField(label="Your Email Address")
+    email = forms.CharField(label="", widget=forms.TextInput(attrs={
+        "placeholder": "Your Email Address"
+    }))
 
 def activate(request):
     DailyWebScraper()
@@ -43,11 +49,11 @@ def index(request):
             return HttpResponseRedirect(f"/product/{ASIN_user}")
         else:
             print("[AAAAAAAAAAAAAA] Invalid!")
-            return render(request, "AmazonPriceTracker/index.html", {
+            return render(request, "AmazonPriceTracker/new_index.html", {
                 "form" : ProductURLForm(),
                 "error" : "Invalid URL! Make sure you are on the product page and not on the search page"
             })
-    return render(request, "AmazonPriceTracker/index.html", {
+    return render(request, "AmazonPriceTracker/new_index.html", {
         "form" : ProductURLForm()
     })
 
@@ -61,7 +67,7 @@ def product(request, ASIN):
         if form.is_valid():
             email = form.cleaned_data["email"]
         else:
-            return render(request, f"AmazonPriceTracker/product.html", {
+            return render(request, f"AmazonPriceTracker/new_product.html", {
                 "ASIN": ASIN,
                 "prices": prices,
                 "form" : EmailForm(),
@@ -72,7 +78,7 @@ def product(request, ASIN):
             #add to db
             current_product = Products.objects.get(ASIN=ASIN)
             current_product.emails_set.create(email=email)
-            return render(request, "AmazonPriceTracker/product.html", {
+            return render(request, "AmazonPriceTracker/new_product.html", {
                 "ASIN": ASIN,
                 "prices": prices,
                 "form" : EmailForm(),
@@ -80,7 +86,7 @@ def product(request, ASIN):
                 "success": "Successfully added your email. We will inform you of any price drops on this product"
             })
         else:
-            return render(request, "AmazonPriceTracker/product.html", {
+            return render(request, "AmazonPriceTracker/new_product.html", {
                 "ASIN": ASIN,
                 "prices": prices,
                 "form" : EmailForm(),
@@ -88,7 +94,7 @@ def product(request, ASIN):
                 "error" : "Invalid Email"
             })
 
-    return render(request, "AmazonPriceTracker/product.html", {
+    return render(request, "AmazonPriceTracker/new_product.html", {
         "ASIN": ASIN,
         "prices": prices,
         "name": name,
