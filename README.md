@@ -3,11 +3,11 @@ A web-app to alert users of future price drops. Check it out at www.prizotracker
 
 This project is built using Django (the web framework), SQLite (the database) and Scrapy (the web crawler)
 
-<img width="1440" alt="Main Page" src="https://user-images.githubusercontent.com/33245117/146040494-a94a676c-96b0-44f5-a754-658f480dc4b7.png">
 The main page. Enter the product url you would like to start tracking
+<img width="1440" alt="Main Page" src="https://user-images.githubusercontent.com/33245117/146040494-a94a676c-96b0-44f5-a754-658f480dc4b7.png">
 
-<img width="1440" alt="Product Page" src="https://user-images.githubusercontent.com/33245117/146040822-10cd5357-5954-41bd-b47f-f1c57af91cd6.png">
 The product page. Shows relevant price history and gives you an option to enter your email to get alerted of price drops.
+<img width="1440" alt="Product Page" src="https://user-images.githubusercontent.com/33245117/146040822-10cd5357-5954-41bd-b47f-f1c57af91cd6.png">
 
 The script runs once every 24 hours in the background, scraping through all the products in the database and alerting any relevant users of price drops
 
