@@ -1,5 +1,5 @@
 # AmazonPriceTracker
-A web-app to alert users of future price drops
+A web-app to alert users of future price drops. Check it out at www.prizotracker.com
 
 This project is built using Django (the web framework), SQLite (the database) and Scrapy (the web crawler)
 
