@@ -1,7 +1,7 @@
 # AmazonPriceTracker
-A web-app to alert users of future price drops. Check it out at www.prizotracker.com
+A web app to alert users of future price drops. Check it out at www.prizotracker.com
 
-This project is built using Django (the web framework), SQLite (the database), Scrapy (the web crawler) and Bootstrap (front-end toolkit) is hosted on Python Anywhere
+This project is built using Django (the web framework), SQLite (the database), Scrapy (the web crawler) and Bootstrap (front-end toolkit) and is hosted on Python Anywhere
 
 The main page. Enter the product url you would like to start tracking
 <img width="1440" alt="Main Page" src="https://user-images.githubusercontent.com/33245117/146040494-a94a676c-96b0-44f5-a754-658f480dc4b7.png">
