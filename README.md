@@ -41,11 +41,11 @@ EMAIL_USE_TLS = True
 ```
 
 ### Step 4
-Start the background script
+Schedule the daily crawl. Using cron should be the easiest on unix systems. 
 ```
-python manage.py startserver
+python manage.py crawl
 ```
-This script will run in the background and will
+This script will
 1. Crawl all the products in the database daily and
 2. Alert the appropriate users in case of any price drops
 
