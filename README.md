@@ -2,6 +2,7 @@
 A web-app to alert users of future price drops
 
 This project is built using Django (the web framework), SQLite (the database) and Scrapy (the web crawler)
+<img width="1440" alt="Main Page" src="https://user-images.githubusercontent.com/33245117/146040494-a94a676c-96b0-44f5-a754-658f480dc4b7.png">
 
 ![image](https://user-images.githubusercontent.com/33245117/145158711-0df4c44e-3de0-4cde-977c-43b1598d3af9.png)
 The main page. Enter the product url you would like to start tracking
