@@ -3,6 +3,9 @@ A web app to alert users of future price drops. Check it out at https://prizo.py
 
 This project is built using Django (the web framework), SQLite (the database), Scrapy (the web crawler), Bootstrap (front-end toolkit) and Python Anywhere (host).
 
+## How it Works
+When a user enters a URL on the website, a scrapy crawler is triggered to go check the URL and make sure that the product details are extractable (basically checks that it is a valid URL). If it is, this product is inserted into the DB and the user is prompted for his email address if they would like price updates to be emailed to them. Once per day, the server asynchronously launches a script to check the prices of all the products in the DB on amazon. It then stores all of these new prices in the DB and if any price has changed, it notifies the corresponding emails.
+
 The main page. Enter the product url you would like to start tracking
 <img width="1440" alt="Main Page" src="https://user-images.githubusercontent.com/33245117/146040494-a94a676c-96b0-44f5-a754-658f480dc4b7.png">
 
