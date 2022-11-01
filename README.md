@@ -16,7 +16,7 @@ The product page. Shows relevant price history and gives you an option to enter 
 The script runs once every 24 hours in the background, scraping through all the products in the database and alerting any relevant users of price drops
 
 ## Future Improvements
-The inspiration for this project was to generate an income by sending affiliate links to users when alerting them of price drops. To to that, I will have to be approved as an amazon affiliate and replace and replace the links in the emails I send accordingly.
+The inspiration for this project was to generate an income by sending affiliate links to users when alerting them of price drops. To do that, I will have to be approved as an amazon affiliate and replace and replace the links in the emails I send accordingly.
 
 ## Reproduce the code locally
 
